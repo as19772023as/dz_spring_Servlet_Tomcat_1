@@ -1,21 +1,13 @@
 package ru.netology.servlet;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.controller.PostController;
-import ru.netology.repository.PostRepository;
-import ru.netology.service.PostService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class MainServlet extends HttpServlet {
-//    @Override
-//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//       // resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//       // resp.setContentType("text/plain");
-//       // resp.getWriter().print("Hay servlet =)");
-//
-//    }
 
     public static final String API_POSTS = "/api/posts";
     public static final String API_POSTS_D = "/api/posts/\\d+";
@@ -24,9 +16,8 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void init() {
-        final var repository = new PostRepository();
-        final var service = new PostService(repository);
-        controller = new PostController(service);
+        final var context = new AnnotationConfigApplicationContext("ru.netology");
+        controller = (PostController) context.getBean("postController");
     }
 
     @Override
