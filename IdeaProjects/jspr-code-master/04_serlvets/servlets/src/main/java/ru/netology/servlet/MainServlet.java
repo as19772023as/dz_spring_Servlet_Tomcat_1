@@ -9,13 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class MainServlet extends HttpServlet {
-//    @Override
-//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//       // resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//       // resp.setContentType("text/plain");
-//       // resp.getWriter().print("Hay servlet =)");
-//
-//    }
 
     public static final String API_POSTS = "/api/posts";
     public static final String API_POSTS_D = "/api/posts/\\d+";
