@@ -8,14 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+
 public class MainServlet extends HttpServlet {
-//    @Override
-//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//       // resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//       // resp.setContentType("text/plain");
-//       // resp.getWriter().print("Hay servlet =)");
-//
-//    }
 
     public static final String API_POSTS = "/api/posts";
     public static final String API_POSTS_D = "/api/posts/\\d+";
@@ -24,9 +20,18 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void init() {
-        final var repository = new PostRepository();
-        final var service = new PostService(repository);
-        controller = new PostController(service);
+        final var factory = new DefaultListableBeanFactory();
+        final var reader = new XmlBeanDefinitionReader(factory);
+        reader.loadBeanDefinitions("beans.xml");
+
+        // получаем по имени бина
+        controller = (PostController) factory.getBean("postController");
+
+        // получаем по классу бина
+        final var service = factory.getBean(PostService.class);
+
+        // по умолчанию создаётся лишь один объект на BeanDefinition
+        final var isSame = service == factory.getBean("postService");
     }
 
     @Override
